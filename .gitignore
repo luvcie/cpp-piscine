@@ -1,0 +1,26 @@
+# Compiled binaries
+a.out
+*.out
+*.o
+*.obj
+*.exe
+
+# Libraries
+*.a
+*.so
+*.dylib
+
+# Debug
+*.dSYM/
+*.gch
+*.pch
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Subject PDFs
+*.pdf
