@@ -1,19 +1,23 @@
+// cctype is for toupper, iostream for cout and endl
 #include <cctype>
 #include <iostream>
 
-// toupper returns an int, so we need to cast
-// i'm casting the C++ way which is... interesting
-// static_cast is a template function
-// it says "hey cpp compiler, copypaste this function
-// and use that type i've given it", so in this case char
 int main(int argc, char **argv) {
-  for (int i = 1; i < argc; ++i) {
-    char *str = argv[i];
-    while (*str != 0) {
-    std::cout << static_cast<char>(toupper(*str));
-      ++str;
+    if (argc == 1) {
+        std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *";
     }
-  }
-  std::cout << std::endl;
-  return 0;
+    for (int i = 1; i < argc; ++i) {
+        char *str = argv[i];
+        while (*str != 0) {
+            // toupper returns an int, so it needs to be casted with the static_cast template which checks
+            // at compile time, and dynamic_cast would check at runtime.
+            // the type you cast to is put inside the < > symbols.
+            std::cout << static_cast<char>(std::toupper(*str));
+            ++str;
+        }
+    }
+    // :: is just "look inside this namespace/scope for the thing on the right", like cout and endl :P
+    std::cout << std::endl;
+    return 0;
 }
+// i'm so happy that there's no norminette anymore and i can put comments inside functions YAY
