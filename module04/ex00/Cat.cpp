@@ -15,7 +15,7 @@ Cat::Cat(const Cat &other) : Animal(other) {
 }
 
 Cat& Cat::operator=(const Cat &other) {
-  std::cout << "Custom assignment operator called" << std::endl;
+  std::cout << "Cat custom assignment operator called" << std::endl;
  Animal::operator=(other);
   return *this;
 }

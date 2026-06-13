@@ -20,7 +20,7 @@ Dog::Dog(const Dog &other) : Animal(other) {
 }
 
 Dog& Dog::operator=(const Dog &other) {
-  std::cout << "operator overload = called" << std::endl;
+  std::cout << "Dog custom assignment operator called" << std::endl;
   Animal::operator=(other); // needs to call the parent
   return *this;
 }

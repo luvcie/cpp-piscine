@@ -31,6 +31,6 @@ WrongAnimal& WrongAnimal::operator=(const WrongAnimal& other){
   if (this != &other) {
     this->type = other.type;
   }
-  std::cout << "Custom Assignment operator called" << std::endl;
+  std::cout << "WrongAnimal custom assignment operator called" << std::endl;
   return *this;
 }
