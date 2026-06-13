@@ -2,10 +2,13 @@
 a.out
 *.out
 *.o
+*.d
 *.obj
 *.exe
 module00/ex00/megaphone
 module00/ex01/phonebook
+module04/ex00/animal
+module04/ex01/brain
 
 # Libraries
 *.a
@@ -20,6 +23,7 @@ module00/ex01/phonebook
 # Editor / OS
 .vscode/
 .idea/
+.ccls-cache/
 *.swp
 *~
 .DS_Store
@@ -29,3 +33,4 @@ module00/ex01/phonebook
 
 ref/
 stufffromintra/
+*.txt
