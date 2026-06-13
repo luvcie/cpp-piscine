@@ -46,4 +46,19 @@ int main() {
   std::cout << std::endl << "STACK ALLOCATION TEST" << std::endl;
   Dog stackDog;
   Cat stackCat;
+
+  /*
+  std::cout << std::endl << "COPY CONSTRUCTOR TEST" << std::endl;
+  Dog originalDog;
+  Dog copiedDog(originalDog);
+  std::cout << copiedDog.getType() << std::endl;
+
+  std::cout << std::endl << "ASSIGNMENT OPERATOR TEST" << std::endl;
+  Cat catA;
+  Cat catB;
+  catB = catA;
+  std::cout << catB.getType() << std::endl;
+  */
+
+  return 0;
 }

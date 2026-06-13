@@ -52,5 +52,22 @@ int main(void) {
     Dog stackDog;
     Cat stackCat;
 
+    /*
+    std::cout << std::endl << "ASSIGNMENT OPERATOR DEEP COPY TEST" << std::endl;
+    Dog dogA;
+    dogA.getBrain()->setIdea(0, "bark to neighbor's dog who lives 3 streets away to communicate that my lunch was yummy'");
+    Dog dogB;
+    dogB = dogA; // assignment, not construction
+    std::cout << "dogA brain address: " << dogA.getBrain() << std::endl;
+    std::cout << "dogB brain address: " << dogB.getBrain() << std::endl;
+    std::cout << "dogB idea[0]: " << dogB.getBrain()->getIdea(0) << std::endl;
+
+    std::cout << std::endl << "CAT DEEP COPY TEST" << std::endl;
+    Cat catA;
+    Cat catB(catA);
+    Cat catC;
+    catC = catA;
+    */
+
     return 0;
 }
