@@ -9,6 +9,7 @@ module00/ex00/megaphone
 module00/ex01/phonebook
 module04/ex00/animal
 module04/ex01/brain
+module04/ex02/abstract
 
 # Libraries
 *.a
