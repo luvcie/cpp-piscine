@@ -58,6 +58,19 @@ int main() {
   Cat catB;
   catB = catA;
   std::cout << catB.getType() << std::endl;
+
+  std::cout << std::endl << "SELF ASSIGNMENT TEST" << std::endl;
+  Dog selfDog;
+  Dog& selfRef = selfDog;
+  selfDog = selfRef; // the this != &other guard should protect this
+  std::cout << selfDog.getType() << std::endl;
+
+  Dog d1;
+  Cat c1;
+  d1.makeSound();
+  c1.makeSound();
+  std::cout << d1.getType() << std::endl;
+  std::cout << c1.getType() << std::endl;
   */
 
   return 0;

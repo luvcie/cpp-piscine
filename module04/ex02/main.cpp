@@ -67,6 +67,29 @@ int main(void) {
     Cat catB(catA);
     Cat catC;
     catC = catA;
+
+    std::cout << std::endl << "INDEPENDENCE TEST" << std::endl;
+    Dog firstDog;
+    firstDog.getBrain()->setIdea(0, "original idea");
+    Dog secondDog(firstDog); // deep copy
+    firstDog.getBrain()->setIdea(0, "changed idea"); // change only the original
+    std::cout << "firstDog idea[0]:  " << firstDog.getBrain()->getIdea(0) << std::endl;
+    std::cout << "secondDog idea[0]: " << secondDog.getBrain()->getIdea(0) << std::endl;
+    // if deep copy works secondDog still has "original idea"
+
+    std::cout << std::endl << "SELF ASSIGNMENT TEST" << std::endl;
+    Dog selfDog;
+    selfDog.getBrain()->setIdea(0, "i am myself");
+    Dog& selfRef = selfDog;
+    selfDog = selfRef; // the this != &other guard should protect this
+    std::cout << "selfDog idea[0]: " << selfDog.getBrain()->getIdea(0) << std::endl;
+
+    Dog d1;
+    Cat c1;
+    d1.makeSound();
+    c1.makeSound();
+    std::cout << d1.getType() << std::endl;
+    std::cout << c1.getType() << std::endl;
     */
 
     return 0;
