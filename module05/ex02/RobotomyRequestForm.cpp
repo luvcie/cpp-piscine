@@ -9,6 +9,10 @@ void RobotomyRequestForm::action() const {
     else std::cout << target << " robotomy failed." << std::endl;
 }
 
+RobotomyRequestForm::RobotomyRequestForm() : AForm("RobotomyRequestForm", 72, 45), target("default") {
+    std::cout << "RobotomyRequestForm default constructor called" << std::endl;
+}
+
 RobotomyRequestForm::RobotomyRequestForm(const std::string& target) : AForm("RobotomyRequestForm", 72, 45), target(target) {
     std::cout << "RobotomyRequestForm constructor called" << std::endl;
 }
