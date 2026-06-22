@@ -8,21 +8,23 @@ Intern::Intern(const Intern&) {}
 Intern& Intern::operator=(const Intern&) { return *this; }
 Intern::~Intern() {}
 
-static AForm* makeShrubbery(const std::string& target) { return new ShrubberyCreationForm(target); }
-static AForm* makeRobotomy(const std::string& target)  { return new RobotomyRequestForm(target); }
-static AForm* makePardon(const std::string& target)    { return new PresidentialPardonForm(target); }
+AForm* Intern::makeShrubbery(const std::string& target) const { return new ShrubberyCreationForm(target); }
+AForm* Intern::makeRobotomy(const std::string& target) const  { return new RobotomyRequestForm(target); }
+AForm* Intern::makePardon(const std::string& target) const    { return new PresidentialPardonForm(target); }
 
 AForm* Intern::makeForm(const std::string& formName, const std::string& target) const {
-  struct { std::string name; AForm* (*create)(const std::string&); } forms[] = { // to avoid if else
-    { "shrubbery creation", makeShrubbery },
-    { "robotomy request",   makeRobotomy  },
-    { "presidential pardon", makePardon   }
+  const std::string names[3] = { "shrubbery creation", "robotomy request", "presidential pardon" };
+  AForm* (Intern::*creators[3])(const std::string&) const = { // array of pointers to member functions
+    								// same trick as the harl exercise lol
+    &Intern::makeShrubbery,
+    &Intern::makeRobotomy,
+    &Intern::makePardon
   };
 
   for (int i = 0; i < 3; i++) {
-    if (forms[i].name == formName) {
+    if (names[i] == formName) {
       std::cout << "Intern creates " << formName << std::endl;
-      return forms[i].create(target);
+      return (this->*creators[i])(target);
     }
   }
   std::cout << "Intern: unknown form name: " << formName << std::endl;

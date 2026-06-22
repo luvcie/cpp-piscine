@@ -4,6 +4,10 @@
 #include <string>
 
 class Intern {
+    private:
+    AForm* makeShrubbery(const std::string& target) const;
+    AForm* makeRobotomy(const std::string& target) const;
+    AForm* makePardon(const std::string& target) const;
     public:
     Intern();
     Intern(const Intern& other);
