@@ -1,6 +1,6 @@
 #ifndef SERIALIZER_HPP
 #define SERIALIZER_HPP
-#include <stdint.h>  // uintptr_t — unsigned int guaranteed big enough to hold a pointer
+#include <stdint.h>  // uintptr_t
 #include "Data.hpp"
 
 class Serializer {
