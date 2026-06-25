@@ -57,8 +57,11 @@ static void printFloat(double d) {
     else if (std::isinf(floatie)) {
         std::cout << (floatie > 0 ? "+inff" : "-inff") << std::endl;
     }
+    else if (floatie == std::floor(floatie))  // floor() rounds down to the nearest whole number
+                                              // so if x equals its own floor it has no fractional part (like 36.0)
+        std::cout << std::fixed << std::setprecision(1) << floatie << "f" << std::endl;  // so force the .0 like the subject wants (42.0f and not just 42)
     else
-        std::cout << std::fixed << std::setprecision(1) << floatie << "f" << std::endl;
+        std::cout << floatie << "f" << std::endl;  // but if it has actual decimals (93.11) just let it print it as is, otherwise setprecision(1) would reduce it to 93.1
 }
 
 static void printDouble(double d) {
@@ -67,11 +70,15 @@ static void printDouble(double d) {
         std::cout << "nan" << std::endl;
     else if (std::isinf(d))
         std::cout << (d > 0 ? "+inf" : "-inf") << std::endl; // to decide if it should be positive infinite or negative infinite tbqdesu
-    else
+    else if (d == std::floor(d))    // same idea as printFloat, if d equals its own floor it's a whole number so display the .0
         std::cout << std::fixed << std::setprecision(1) << d << std::endl;
-                    // setprecision sets how many decimal places to print
-                    // std::fixed makes it use fixed point notation instead of scientific (1e+16)
-                    // so for example it would print 16.0 instead of 1.6e1
+                                    // setprecision sets how many decimal places to print
+                                    // std::fixed makes it use fixed point notation instead of scientific (1e+16)
+                                    // so for example it would print 16.0 instead of 1.6e1
+    else
+        // reset the fixed/setprecision(1) that printFloat may have left on cout, otherwise this real-decimal value would print under those leaked settings
+        std::cout << std::resetiosflags(std::ios::floatfield) << std::setprecision(6) << d << std::endl;
+
 }
 
 void ScalarConverter::convert(const std::string& literal) {
@@ -84,9 +91,18 @@ void ScalarConverter::convert(const std::string& literal) {
         d = static_cast<double>(characteroid);   // then cast the character to double a to store in d
                                                  // because all the print functions take a double tbqdesu
     }
-    else // so if isCharLiteral returned false...... the input is not a single char, it's an int float or double or nan/inf ! to be completely honest you know
-        d = std::strtod(literal.c_str(), NULL);
-            // strtodouble
+    else { // so if isCharLiteral returned false...... the input is not a single char, it's an int float or double or nan/inf ! to be completely honest you know
+        char* rest;
+        d = std::strtod(literal.c_str(), &rest);  // rest = leftover string strtod couldn't parse
+        // reject junk ("", "abc", "42abc"), but allow a single 'f' at the end so 42.0f, +inff and nanf still work
+        if (rest == literal.c_str() || (*rest != '\0' && !(rest[0] == 'f' && rest[1] == '\0'))) {
+            std::cout << "char: impossible" << std::endl;
+            std::cout << "int: impossible" << std::endl;
+            std::cout << "float: impossible" << std::endl;
+            std::cout << "double: impossible" << std::endl;
+            return;
+        }
+    }
 
     printChar(d);                                       // print all of them
     printInt(d);                                        // to be tbh :)

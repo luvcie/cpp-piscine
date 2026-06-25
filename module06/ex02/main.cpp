@@ -26,6 +26,8 @@ void identify(Base* basepointer) {
         std::cout << "B" << std::endl;
     else if (dynamic_cast<C*>(basepointer))
         std::cout << "C" << std::endl;
+    else
+        std::cout << "Unknown" << std::endl;
 }
 
 // takes: a Base reference
