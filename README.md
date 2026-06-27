@@ -4,7 +4,7 @@ my notes for the 42 c++ modules.
 
 <a name="index"></a>
 
-[module 00](#module-00) · [module 01](#module-01) · [module 02](#module-02) · [module 03](#module-03) · [module 04](#module-04) · [module 05](#module-05) · [module 06](#module-06) · [module 07](#module-07)
+[module 00](#module-00) · [module 01](#module-01) · [module 02](#module-02) · [module 03](#module-03) · [module 04](#module-04) · [module 05](#module-05) · [module 06](#module-06) · [module 07](#module-07) · [module 08](#module-08)
 
 ## module 00
 [↑](#index)
@@ -292,3 +292,39 @@ a class template `Array<T>` that wraps a heap-allocated array.
 - must use `new[]`, no preemptive allocation
 - subscript operator `[]` throws `std::exception` if the index is out of bounds
 - `size()` returns the number of elements, const
+
+## module 08
+[↑](#index)
+
+templated containers, iterators and algorithms.
+the STL (standard template library) is the part of the c++ standard library that ships ready-made generic containers, algorithms and iterators. instead of writing a resizable array or sort function from scratch, the standard provides them: well-tested, generic, optimized.
+
+concepts:
+- STL containers are generic collections: `std::vector` (resizable array), `std::list` (doubly linked list), `std::deque` (double-ended queue), and so on. each exposes iterators. [containers](https://www.learncpp.com/cpp-tutorial/introduction-to-containers-and-arrays/)
+- an iterator is an object that points to an element in a container and can be advanced with `++`. `begin()` points to the first element, `end()` points one past the last. [iterators](https://www.learncpp.com/cpp-tutorial/introduction-to-iterators/)
+- STL algorithms from `<algorithm>` work on any container through iterators: `std::find`, `std::sort`, `std::min_element`, `std::max_element`. using them instead of manual loops is the whole point of this module. [algorithms](https://www.learncpp.com/cpp-tutorial/introduction-to-standard-library-algorithms/)
+- `std::stack` is a container adaptor built on top of `std::deque` by default. it deliberately hides iterators, but the underlying container is stored in a protected member `c` that derived classes can access.
+
+### ex00 easy find
+
+a function template `easyFind(container, value)` that searches any container of integers for a value.
+- uses `std::find` from `<algorithm>`, manual iterator loops are not allowed by the eval sheet
+- throws an exception if the value is not found
+- works with any sequential container: `std::vector`, `std::list`, `std::deque`, etc.
+
+### ex01 span
+
+a `Span` class that stores up to N integers.
+- `addNumber(int)` adds one number, throws if the span is already full
+- `shortestSpan()` finds the minimum difference between any two stored numbers
+- `longestSpan()` returns max minus min
+- both span functions throw if there are fewer than two numbers stored
+- also implements a range-of-iterators overload of addNumber to fill thousands of numbers in one call
+- must use STL algorithms throughout, sorting then scanning adjacent differences for shortestSpan
+
+### ex02 mutated abomination
+
+a `MutantStack<T>` class that inherits from `std::stack<T>` and adds iterators.
+- `std::stack` is not iterable by design, so MutantStack exposes the underlying container's iterators
+- `begin()` and `end()` delegate to the protected member `c` of `std::stack`
+- all existing stack operations still work since they are inherited unchanged
