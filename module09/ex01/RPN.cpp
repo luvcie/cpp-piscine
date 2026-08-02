@@ -2,6 +2,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <cctype>
+#include <list>
 
 RPN::RPN() {}
 RPN::RPN(const RPN& other) { (void)other; }
@@ -9,7 +10,7 @@ RPN& RPN::operator=(const RPN& other) { (void)other; return *this; }
 RPN::~RPN() {}
 
 int RPN::evaluate(const std::string& expr) const {
-    std::stack<int> stack;
+    std::stack<int, std::list<int> > stack;
     std::istringstream stream(expr);
     std::string token;
 
