@@ -2,11 +2,12 @@
 #include <sstream>
 #include <stdexcept>
 #include <cctype>
+#include <stack>
 #include <list>
 
 RPN::RPN() {}
-RPN::RPN(const RPN& other) { (void)other; }
-RPN& RPN::operator=(const RPN& other) { (void)other; return *this; }
+RPN::RPN(const RPN&) {}
+RPN& RPN::operator=(const RPN&) { return *this; }
 RPN::~RPN() {}
 
 int RPN::evaluate(const std::string& expr) const {
@@ -37,6 +38,8 @@ int RPN::evaluate(const std::string& expr) const {
         }
     }
     // a valid expression always leaves exactly one number on the stack
+    if (stack.empty())
+        throw std::runtime_error("Error: no numbers in the expression");
     if (stack.size() != 1)
         throw std::runtime_error("Error: too many operands, missing operators");
     return stack.top();
