@@ -22,7 +22,7 @@ int RPN::evaluate(const std::string& expr) const {
                    (token[0] == '+' || token[0] == '-' ||
                     token[0] == '*' || token[0] == '/')) {
             if (stack.size() < 2)
-                throw std::runtime_error("Error: not enough operands for '" + token + "'");
+                throw std::runtime_error("Error: not enough numbers for '" + token + "'");
             int right = stack.top(); stack.pop(); // last number pushed = right side
             int left  = stack.top(); stack.pop(); // the one before it = left side
             if (token[0] == '+')      stack.push(left + right);
@@ -41,6 +41,6 @@ int RPN::evaluate(const std::string& expr) const {
     if (stack.empty())
         throw std::runtime_error("Error: no numbers in the expression");
     if (stack.size() != 1)
-        throw std::runtime_error("Error: too many operands, missing operators");
+        throw std::runtime_error("Error: too many numbers left, missing an operator");
     return stack.top();
 }

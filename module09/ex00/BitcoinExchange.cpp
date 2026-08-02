@@ -66,10 +66,9 @@ double BitcoinExchange::getRate(const std::string& date) const {
 
 void BitcoinExchange::processInput(const std::string& path) const {
     std::ifstream file(path.c_str());
-    if (!file.is_open()) {
-        std::cerr << "Error: could not open file." << std::endl;
-        return;
-    }
+    if (!file.is_open())
+        throw std::runtime_error("Error: could not open file.");
+    std::cout.precision(12); // default is 6 digits, big prices would print as 4.71159e+07
     std::string line;
     std::getline(file, line); // skip first line "date | value"
     while (std::getline(file, line)) {
@@ -87,7 +86,8 @@ void BitcoinExchange::processInput(const std::string& path) const {
         }
         char*  end;
         double value = std::strtod(valStr.c_str(), &end);
-        if (end == valStr.c_str() || (*end != '\0' && *end != '\r')) {
+        // nan is never equal to itself, and would pass both checks below
+        if (end == valStr.c_str() || (*end != '\0' && *end != '\r') || value != value) {
             std::cout << "Error: bad input => " << line << std::endl;
             continue;
         }

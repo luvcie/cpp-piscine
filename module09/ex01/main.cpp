@@ -3,7 +3,8 @@
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        std::cerr << "Error: pass the expression as a single quoted argument" << std::endl;
+        std::cerr << "Error: put the whole expression in quotes" << std::endl;
+        std::cerr << "use like this: ./RPN \"8 9 * 9 - 9 - 9 - 4 - 1 +\"" << std::endl;
         return 1;
     }
     try {
