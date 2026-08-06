@@ -9,8 +9,8 @@ int main(int argc, char** argv) {
     }
     try {
         PmergeMe sorter;
-        sorter.parse(argc, argv);
-        sorter.run();
+        sorter.validate(argc, argv);
+        sorter.run(argc, argv);
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;

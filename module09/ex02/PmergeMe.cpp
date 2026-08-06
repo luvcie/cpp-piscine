@@ -184,7 +184,7 @@ void PmergeMe::sortDeq(std::deque<int>& d) {
     d.swap(chain);
 }
 
-void PmergeMe::parse(int argc, char** argv) {
+void PmergeMe::validate(int argc, char** argv) {
     for (int i = 1; i < argc; i++) {
         std::string arg(argv[i]);
         if (arg.empty())
@@ -194,10 +194,8 @@ void PmergeMe::parse(int argc, char** argv) {
         long n = std::strtol(arg.c_str(), NULL, 10);
         if (n > INT_MAX)
             throw std::runtime_error("Error: '" + arg + "' is too large");
-        vec.push_back(static_cast<int>(n));
-        deq.push_back(static_cast<int>(n));
     }
-    if (vec.empty())
+    if (argc < 2)
         throw std::runtime_error("Error: no numbers given");
 }
 
@@ -208,14 +206,25 @@ static void printSeq(const char* label, const std::vector<int>& v) {
     std::cout << std::endl;
 }
 
-void PmergeMe::run() {
-    printSeq("Before: ", vec);
+static void printArgs(const char* label, int argc, char** argv) {
+    std::cout << label;
+    for (int i = 1; i < argc; i++)
+        std::cout << argv[i] << " ";
+    std::cout << std::endl;
+}
+
+void PmergeMe::run(int argc, char** argv) {
+    printArgs("Before: ", argc, argv);
 
     double vecStart = now();
+    for (int i = 1; i < argc; i++)
+        vec.push_back(static_cast<int>(std::strtol(argv[i], NULL, 10)));
     sortVec(vec);
     double vecEnd = now();
 
     double deqStart = now();
+    for (int i = 1; i < argc; i++)
+        deq.push_back(static_cast<int>(std::strtol(argv[i], NULL, 10)));
     sortDeq(deq);
     double deqEnd = now();
 

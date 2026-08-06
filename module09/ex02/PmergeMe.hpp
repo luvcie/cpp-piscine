@@ -18,8 +18,8 @@ class PmergeMe {
     PmergeMe& operator=(const PmergeMe& other);
     ~PmergeMe();
 
-    void parse(int argc, char** argv);
-    void run();
+    void validate(int argc, char** argv);
+    void run(int argc, char** argv);
 };
 
 #endif
