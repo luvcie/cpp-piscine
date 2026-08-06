@@ -70,7 +70,8 @@ void BitcoinExchange::processInput(const std::string& path) const {
         throw std::runtime_error("Error: could not open file.");
     std::cout.precision(12); // default is 6 digits, big prices would print as 4.71159e+07
     std::string line;
-    std::getline(file, line); // skip first line "date | value"
+    if (std::getline(file, line) && line.substr(0, 4) != "date")
+        file.seekg(0);
     while (std::getline(file, line)) {
         if (line.empty()) continue;
         std::size_t pipe = line.find(" | ");
