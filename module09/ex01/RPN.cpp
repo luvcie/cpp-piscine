@@ -2,6 +2,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <cctype>
+#include <climits>
 #include <list>
 
 RPN::RPN() {}
@@ -24,14 +25,20 @@ int RPN::evaluate(const std::string& expr) const {
                 throw std::runtime_error("Error: not enough numbers for '" + token + "'");
             int right = stack.back(); stack.pop_back(); // last number pushed = right side
             int left  = stack.back(); stack.pop_back(); // the one before it = left side
-            if (token[0] == '+')      stack.push_back(left + right);
-            else if (token[0] == '-') stack.push_back(left - right);
-            else if (token[0] == '*') stack.push_back(left * right);
+            // done in long because overflowing an int is undefined behaviour, and two
+            // ints can never overflow a 64 bit long, so the check below is always valid
+            long res;
+            if (token[0] == '+')      res = static_cast<long>(left) + right;
+            else if (token[0] == '-') res = static_cast<long>(left) - right;
+            else if (token[0] == '*') res = static_cast<long>(left) * right;
             else {
                 if (right == 0)
                     throw std::runtime_error("Error: division by zero");
-                stack.push_back(left / right);
+                res = left / right;
             }
+            if (res > INT_MAX || res < INT_MIN)
+                throw std::runtime_error("Error: the result does not fit in an int");
+            stack.push_back(static_cast<int>(res));
         } else {
             throw std::runtime_error("Error: unknown token '" + token + "'");
         }
