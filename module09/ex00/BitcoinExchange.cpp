@@ -71,7 +71,7 @@ void BitcoinExchange::processInput(const std::string& path) const {
     std::cout.precision(12); // default is 6 digits, big prices would print as 4.71159e+07
     std::string line;
     if (std::getline(file, line) && line.substr(0, 4) != "date")
-        file.seekg(0);
+        file.seekg(0); // no header, rewind so the first line is not lost
     while (std::getline(file, line)) {
         if (line.empty()) continue;
         std::size_t pipe = line.find(" | ");

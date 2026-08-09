@@ -1,12 +1,12 @@
 #include "PmergeMe.hpp"
-#include <algorithm> // std::lower_bound, std::upper_bound
+#include <algorithm>
 #include <iostream>
-#include <iomanip>   // std::setprecision
+#include <iomanip>
 #include <stdexcept>
 #include <string>
-#include <cstdlib>   // std::strtol
-#include <climits>   // INT_MAX
-#include <ctime>     // clock_gettime
+#include <cstdlib>
+#include <climits>
+#include <ctime>
 
 PmergeMe::PmergeMe() {}
 
@@ -114,6 +114,7 @@ void PmergeMe::sortVec(std::vector<int>& v) {
     v.swap(chain);
 }
 
+// same algorithm as sortVec, written out again for the deque
 void PmergeMe::sortDeq(std::deque<int>& d) {
     if (d.size() < 2)
         return;
@@ -216,6 +217,7 @@ static void printArgs(const char* label, int argc, char** argv) {
 void PmergeMe::run(int argc, char** argv) {
     printArgs("Before: ", argc, argv);
 
+    // the clock covers filling the container too, not just the sorting
     double vecStart = now();
     for (int i = 1; i < argc; i++)
         vec.push_back(static_cast<int>(std::strtol(argv[i], NULL, 10)));
