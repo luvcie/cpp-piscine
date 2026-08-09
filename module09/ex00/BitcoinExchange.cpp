@@ -32,6 +32,8 @@ void BitcoinExchange::loadDatabase(const std::string& path) {
         double rate = std::strtod(line.substr(comma + 1).c_str(), NULL);
         db[date] = rate;
     }
+    if (db.empty())
+        throw std::runtime_error("Error: database is empty or malformed.");
 }
 
 bool BitcoinExchange::validDate(const std::string& date) const {
