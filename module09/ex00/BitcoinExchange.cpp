@@ -72,8 +72,11 @@ void BitcoinExchange::processInput(const std::string& path) const {
         throw std::runtime_error("Error: could not open file.");
     std::cout.precision(12); // default is 6 digits, big prices would print as 4.71159e+07
     std::string line;
-    if (std::getline(file, line) && line.substr(0, 4) != "date")
-        file.seekg(0); // no header, rewind so the first line is not lost
+    // no header, so rewind and read that first line as data instead of dropping it
+    if (std::getline(file, line) && line.substr(0, 4) != "date") {
+        file.clear(); // reading the line may have set the eof flag, which would block the rewind
+        file.seekg(0); // seekg moves the read position, 0 puts it back at the start of the file
+    }
     while (std::getline(file, line)) {
         if (line.empty()) continue;
         std::size_t pipe = line.find(" | ");
@@ -109,4 +112,6 @@ void BitcoinExchange::processInput(const std::string& path) const {
             std::cout << e.what() << std::endl;
         }
     }
+    if (file.bad()) // a directory opens fine but every read fails
+        throw std::runtime_error("Error: could not read file.");
 }
